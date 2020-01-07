@@ -1,5 +1,6 @@
 const express = require('express')
 const db = require('./queries')
+require('log-timestamp')
 
 const app = express()
 const port = 3000
