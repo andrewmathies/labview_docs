@@ -20,7 +20,8 @@ const fill_temp_table = (vi_list, res) => {
 		pool.query('INSERT INTO temp_data(name, description) VALUES($1, $2)', [vi.Name, vi.Description], (err, result) => {
 			if (err) {
 				console.log(err)
-				res.status(500).json({ 'Result': 'Failure' })
+                res.status(500).json({ 'Result': 'Failure' })
+                return
 			}
 			
 			count += 1
@@ -35,7 +36,8 @@ const distinct_insert = (res) => {
 	pool.query('INSERT INTO vis(name, description) SELECT DISTINCT name, description FROM temp_data WHERE NOT EXISTS (SELECT \'X\' FROM vis WHERE temp_data.name = vis.name AND temp_data.description = vis.description)', (err, result) => {
 		if (err) {
 			console.log(err)
-			res.status(500).json({ 'Result': 'Failure' })
+            res.status(500).json({ 'Result': 'Failure' })
+            return
 		}
 		
 		res.status(201).json({ 'Result': 'Success' })	
@@ -60,7 +62,8 @@ const createVis = (req, res) => {
 	pool.query('CREATE TEMPORARY TABLE temp_data(name VARCHAR(30), description VARCHAR(200))', (err, result) => {
 		if (err) {
 			console.log(err)
-			res.status(500).json({ 'Result': 'Failure' })
+            res.status(500).json({ 'Result': 'Failure' })
+            return
 		}
 
 		fill_temp_table(req.body, res)
