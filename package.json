@@ -9,8 +9,8 @@
   "author": "Andrew Mathies",
   "license": "ISC",
   "dependencies": {
-    "console-stamp": "^0.2.9",
     "express": "^4.17.1",
+    "log-timestamp": "^0.3.0",
     "pg": "^7.17.0"
   }
 }
