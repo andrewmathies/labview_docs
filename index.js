@@ -11,7 +11,11 @@ app.get('/api/vi', db.getVis)
 app.post('/api/vi', db.createVis)
 
 app.get('/', (req, res) => {
-	res.send('Yo')
+	res.sendFile('./frontend/index.html')
+})
+
+app.get('/doc', (req, res) => {
+	res.sendFile('./frontend/doc.html')
 })
 
 app.listen(port, () => {
