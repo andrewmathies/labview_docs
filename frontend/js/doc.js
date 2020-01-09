@@ -33,3 +33,9 @@ req.onreadystatechange = (event) => {
   name_label.innerHTML = vi.name
   description_label.innerHTML = vi.description
 }
+
+window.onload = () => {
+  document.getElementById('home_button').addEventListener('click', () => {
+    window.location = '//saturten.com'
+  })
+}
