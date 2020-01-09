@@ -16,7 +16,7 @@ req.onreadystatechange = (event) => {
     autocomplete(document.getElementById("search_bar"), viList)
 }
 
-function autocomplete(inputElement, arr) {
+function autocomplete(inputElement, data) {
 	var currentFocus;
 
 	// when user types into textbox
@@ -38,15 +38,16 @@ function autocomplete(inputElement, arr) {
 		
 		this.parentNode.appendChild(itemContainer);
 
-		// TODO: binary search variant
-		for (i = 0; i < names.length; i++) {
-			if (names[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-				console.log("matched " + names[i] + " with " + val);
+        // TODO: binary search variant
+		for (i = 0; i < data.length; i++) {
+            let cur = data[i].name
+			if (cur.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+				console.log("matched " + cur + " with " + val);
 
 				curMatch = document.createElement("DIV");
-				curMatch.innerHTML = "<strong>" + names[i].substr(0, val.length); + "</strong>";
-				curMatch.innerHTML += names[i].substr(val.length);
-				curMatch.innerHTML += "<input type='hidden' value='" + names[i] + "'>";
+				curMatch.innerHTML = "<strong>" + cur.substr(0, val.length); + "</strong>";
+				curMatch.innerHTML += cur.substr(val.length);
+				curMatch.innerHTML += "<input type='hidden' value='" + cur + "'>";
 				
 				curMatch.addEventListener("click", function(e) {
 					
