@@ -80,11 +80,11 @@ function autocomplete(inputElement, data) {
 			e.preventDefault();
 
 			if (currentFocus > -1 && autoList) {
-                autoList[currentFocus].click();
+                		autoList[currentFocus].click();
             }
             
 			let search_bar = document.getElementById('search_bar')
-			window.location.href = 'saturten.com/doc?name=' + search_bar.value
+			window.location.href = '/doc?name=' + search_bar.value
 		}
 	});
 

@@ -21,15 +21,15 @@ req.onreadystatechange = (event) => {
   if(req.readyState !== XMLHttpRequest.DONE || req.status !== 200 || !req.responseText) {
     return
   }
-  console.log('recieved response from backend')
+  console.log(req.responseText)
 
   let res = req.responseText
-  let vi = JSON.parse(res)
+  let vi = JSON.parse(res)[0]
 
   let name_label = document.getElementById('vi_name')
   let description_label = document.getElementById('vi_description')
   //let path_label = document.getElementById('vi_path')
 
-  name_label.value = vi.Name
-  description_label.value = vi.Description
+  name_label.innerHTML = vi.name
+  description_label.innerHTML = vi.description
 }
