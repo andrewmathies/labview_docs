@@ -3,12 +3,13 @@ const fs = require('fs')
 const crypto = require('crypto')
 
 const db_user = 'qa_admin'
+const db_name = 'labview_docs'
 const db_pwd = fs.readFileSync('db_pwd', 'utf8').trim()
 //const encrypted_pwd = 'md5' + crypto.createHash('md5').update(db_pwd + db_user).digest('hex')
 
 const pool = new Pool({
 	user: db_user,
-	database: 'labview_docs',
+	database: db_name,
 	password: db_pwd,
 	port: 5432,
 })
