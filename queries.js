@@ -17,7 +17,7 @@ const pool = new Pool({
 const getVis = (req, res) => {
 	console.log('Recieved get: ' + JSON.stringify(req.body))
 	
-    pool.query('SELECT * FROM vis ORDER BY id ASC', (err, result) => {
+    pool.query('SELECT * FROM vis ORDER BY name ASC', (err, result) => {
         if (err) {
             console.log(err)
             res.status(500).json({ 'Result': 'Failure' })
