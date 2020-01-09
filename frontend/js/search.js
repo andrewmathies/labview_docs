@@ -1,4 +1,4 @@
-const req = new XMLreqRequest();
+const req = new XMLHttpRequest();
 const url='http://saturten.com/api/vi';
 req.open("GET", url);
 req.send();
