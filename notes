@@ -1,0 +1,13 @@
+TODO
+
+visual bugs:
+1. search icon button is displaced up
+2. no boxes appearing when autocomplete generates suggestions
+3. suggestions displaced to the left
+
+functionality:
+1. doc page, make a request to backend with specific VI name
+2. doc page, fill out elements with data recieved from backend 
+3. backend, endpoint for data for one VI with supplied name
+4. search page, on enter, go to doc page with data found from list search
+5. binary search on list since it's sorted alphabetically
