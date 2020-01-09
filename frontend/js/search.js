@@ -5,12 +5,7 @@ req.send();
 
 let viList
 
-req.onreadystatechange = (err) => {
-    if (err) {
-        console.log('request for VI data failed', err)
-        return
-    }
-
+req.onreadystatechange = (event) => {
     if(req.readyState !== XMLHttpRequest.DONE && req.status !== 200) {
         console.log('request for VI data was not successful', req.status)
         return
