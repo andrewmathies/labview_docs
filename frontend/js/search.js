@@ -81,8 +81,10 @@ function autocomplete(inputElement, data) {
 
 			if (currentFocus > -1 && autoList) {
                 autoList[currentFocus].click();
-                console.log('go to docs page with: ' + autoList[currentFocus])
-			}
+            }
+            
+			let search_bar = document.getElementById('search_bar')
+			window.location.href = 'saturten.com/doc?name=' + search_bar.value
 		}
 	});
 

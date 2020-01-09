@@ -20,11 +20,31 @@ const getVis = (req, res) => {
     pool.query('SELECT * FROM vis ORDER BY name ASC', (err, result) => {
         if (err) {
             console.log(err)
-            res.status(500).json({ 'Result': 'Failure' })
+			res.status(500).json({ 'Result': 'Failure' })
+			return
         }
 
         res.status(200).json(result.rows)
     })
+}
+
+const getVi = (req, res) => {
+	console.log('Recieved get: ' + JSON.stringify(req.body))
+
+	pool.query('SELECT * FROM vis WHERE name=($1)', [req.params.name], (err, result) => {
+		if (err) {
+			console.log(err)
+			res.status(500).json({ 'Result' : 'Failure' })
+			return
+		}
+
+		if (result.rowCount == 0) {
+			res.status(204).json({ 'Result': 'Success' })
+			return
+		}
+
+		res.status(200).json(result.rows)
+	})
 }
 
 const createVis = (req, res) => {
@@ -43,13 +63,14 @@ const createVis = (req, res) => {
 			count++
 
 			if (count == req.body.length) {
-				res.status(201).json({ 'Result': 'Inserted ' + result.rowCount + ' new rows' })
+				res.status(201).json({ 'Result': 'Inserted ' + count + ' new rows' })
 			}
     	})
 	}
 }
 
 module.exports = {
-    getVis,
+	getVis,
+	getVi,
     createVis
 }
