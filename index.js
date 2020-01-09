@@ -10,12 +10,10 @@ app.use(express.json())
 app.get('/api/vi', db.getVis)
 app.post('/api/vi', db.createVis)
 
-app.get('/', (req, res) => {
-	res.sendFile('./frontend/index.html')
-})
+app.use(express.static('frontend'))
 
 app.get('/doc', (req, res) => {
-	res.sendFile('./frontend/doc.html')
+	res.sendFile('/home/ec2-user/labview_docs/frontend/doc.html')
 })
 
 app.listen(port, () => {
