@@ -1,0 +1,26 @@
+html {
+    background: url("../images/doc_background.png");
+    background-size: cover;
+}
+
+.wrapper {
+    height: 50vh;
+    display: flex;
+    text-align: center;
+
+    /* Direction of the items, can be row or column */
+    flex-direction: column;
+}
+
+header {
+    margin-top: 40px;
+    height: 70px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: xx-large;
+}
+
+main {
+    flex: 1;
+    display: inline-block;
+}
