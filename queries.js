@@ -53,11 +53,17 @@ const createVis = (req, res) => {
 	
 	for (i in req.body) {
 		vi = req.body[i]
+		
+		if (vi.Name.length > MAX_NAME_LEN) {
+			console.log('recieved vi with name that\'s too long: ' + vi.Name)
+			vi.Name = vi.Name.substring(0, 49)
+		}
+
 		pool.query('INSERT INTO vis(name, description) VALUES($1, $2) ON CONFLICT (name) DO NOTHING', [vi.Name, vi.Description], (err, result) => {
 			if (err) {
 				console.log(err)
-            	res.status(500).json({ 'Result': 'Failure' })
-            	return
+            			res.status(500).json({ 'Result': 'Failure' })
+            			return
 			}
 
 			count++
@@ -65,7 +71,7 @@ const createVis = (req, res) => {
 			if (count == req.body.length) {
 				res.status(201).json({ 'Result': 'Inserted ' + count + ' new rows' })
 			}
-    	})
+    		})
 	}
 }
 
