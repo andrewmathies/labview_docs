@@ -1,9 +1,7 @@
-const req = new XMLHttpRequest();
+let req = new XMLHttpRequest();
 const url='http://saturten.com/api/vi';
 req.open("GET", url);
 req.send();
-
-let viList
 
 req.onreadystatechange = (event) => {
     if(req.readyState !== XMLHttpRequest.DONE || req.status !== 200 || !req.responseText) {
@@ -11,25 +9,33 @@ req.onreadystatechange = (event) => {
     }
 
     let response = req.responseText
-    viList = JSON.parse(response)
-    console.log(viList)
+    let viList = JSON.parse(response)
     autocomplete(document.getElementById("search_bar"), viList)
 }
 
-function autocomplete(inputElement, data) {
-	var currentFocus;
+window.onload = () => {
+	document.getElementById('search_button').addEventListener('click', () => {
+		search()
+	})
+}
+
+// get whatever is in the search bar and redirect to doc page with that value as param
+const search = () => {
+	const search_bar = document.getElementById('search_bar')
+	window.location.href = '/doc?name=' + search_bar.value
+}
+
+const autocomplete = (inputElement, data) => {
+	let currentFocus;
 
 	// when user types into textbox
 	inputElement.addEventListener("input", function(e) {
-		var itemContainer, curMatch, i, val = this.value;
+		let itemContainer, curMatch, i, val = this.value;
 		
 		closeAllLists();
 
 		if (!val)
 			return false;
-
-		console.log("this is:");
-		console.log(this);
 
 		currentFocus = -1;
 		itemContainer = document.createElement("DIV");
@@ -42,8 +48,6 @@ function autocomplete(inputElement, data) {
 		for (i = 0; i < data.length; i++) {
             let cur = data[i].name
 			if (cur.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-				console.log("matched " + cur + " with " + val);
-
 				curMatch = document.createElement("DIV");
 				curMatch.innerHTML = "<strong>" + cur.substr(0, val.length); + "</strong>";
 				curMatch.innerHTML += cur.substr(val.length);
@@ -62,7 +66,7 @@ function autocomplete(inputElement, data) {
 
 	// when user presses a key
 	inputElement.addEventListener("keydown", function(e) {
-		var autoList = document.getElementById(this.id + "autocomplete-list");
+		let autoList = document.getElementById(this.id + "autocomplete-list");
 		
 		if (autoList)
 			autoList = autoList.getElementsByTagName("div");
@@ -80,11 +84,10 @@ function autocomplete(inputElement, data) {
 			e.preventDefault();
 
 			if (currentFocus > -1 && autoList) {
-                		autoList[currentFocus].click();
+                autoList[currentFocus].click();
             }
             
-			let search_bar = document.getElementById('search_bar')
-			window.location.href = '/doc?name=' + search_bar.value
+			search()
 		}
 	});
 
@@ -103,14 +106,14 @@ function autocomplete(inputElement, data) {
 	}
 
 	function removeActive(autoList) {
-		for (var i = 0; i < autoList.length; i++)
+		for (let i = 0; i < autoList.length; i++)
 			autoList[i].classList.remove("autocomplete-active");
 	}
 
 	function closeAllLists(element) {
-		var items = document.getElementsByClassName("autocomplete-items");
+		let items = document.getElementsByClassName("autocomplete-items");
 
-		for (var i = 0; i < items.length; i++) { 
+		for (let i = 0; i < items.length; i++) { 
 			if (element != items[i] && element != inputElement)
 				items[i].parentNode.removeChild(items[i]);
 		}
