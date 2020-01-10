@@ -1,34 +1,39 @@
-
 const getParams = () => {
   let dict = {}
-  let url_parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
+  window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
     dict[key] = value
   })
-  
+
   return dict
 }
 
 const params = getParams()
-const name = params['name']
+const id = params['id']
 
 const req = new XMLHttpRequest();
-const url='http://saturten.com/api/vi/' + name
-console.log('requesting VI data from backend')
+const url = 'http://saturten.com/api/vi/' + id
+
 req.open("GET", url)
 req.send()
 
 req.onreadystatechange = (event) => {
-  if(req.readyState !== XMLHttpRequest.DONE || req.status !== 200 || !req.responseText) {
+  if (req.readyState !== XMLHttpRequest.DONE || req.status !== 200 || !req.responseText) {
     return
   }
-  console.log(req.responseText)
 
-  let res = req.responseText
-  let vi = JSON.parse(res)[0]
+  const res = req.responseText
+  const parsedResponse = JSON.parse(res)
 
   let name_label = document.getElementById('vi_name')
   let description_label = document.getElementById('vi_description')
   //let path_label = document.getElementById('vi_path')
+
+  // Backend couldn't find the VI in the database
+  if (parsedResponse.length == 0) {
+    const errMessage = 'No vi with ID ' + id + ' found'
+    console.log(errMessage)
+    name_label.innerHTML = errMessage
+  }
 
   name_label.innerHTML = vi.name
   description_label.innerHTML = vi.description

@@ -3,6 +3,8 @@ const url='http://saturten.com/api/vi';
 req.open("GET", url);
 req.send();
 
+const viDict
+
 req.onreadystatechange = (event) => {
     if(req.readyState !== XMLHttpRequest.DONE || req.status !== 200 || !req.responseText) {
         return
@@ -10,7 +12,13 @@ req.onreadystatechange = (event) => {
 
     let response = req.responseText
     let viList = JSON.parse(response)
-    autocomplete(document.getElementById("search_bar"), viList)
+	autocomplete(document.getElementById("search_bar"), viList)
+	
+	viDict = viList.reduce((map, vi) => {
+		map[vi.name] = vi.id
+		return map
+	}, {})
+	console.log(viDict)
 }
 
 window.onload = () => {
@@ -22,7 +30,7 @@ window.onload = () => {
 // get whatever is in the search bar and redirect to doc page with that value as param
 const search = () => {
 	const search_bar = document.getElementById('search_bar')
-	window.location.href = '/doc?name=' + search_bar.value
+	window.location.href = '/doc?id=' + viDict[search_bar.value]
 }
 
 const autocomplete = (inputElement, data) => {
