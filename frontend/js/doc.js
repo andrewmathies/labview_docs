@@ -22,21 +22,11 @@ req.onreadystatechange = (event) => {
   }
 
   const res = req.responseText
-  const parsedResponse = JSON.parse(res)
+  const vi = JSON.parse(res)[0]
 
   let name_label = document.getElementById('vi_name')
   let description_label = document.getElementById('vi_description')
   //let path_label = document.getElementById('vi_path')
-
-  // Backend couldn't find the VI in the database
-  if (parsedResponse.length == 0) {
-    const errMessage = 'No vi with ID ' + id + ' found'
-    console.log(errMessage)
-    name_label.innerHTML = errMessage
-    return
-  }
-
-  const vi = parsedResponse[0]
 
   name_label.innerHTML = vi.name
   description_label.innerHTML = vi.description
