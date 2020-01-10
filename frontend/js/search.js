@@ -1,19 +1,19 @@
 let req = new XMLHttpRequest();
-const url='http://saturten.com/api/vi';
+const url = 'http://saturten.com/api/vi';
 req.open("GET", url);
 req.send();
 
 let viDict = {}
 
 req.onreadystatechange = (event) => {
-    if(req.readyState !== XMLHttpRequest.DONE || req.status !== 200 || !req.responseText) {
-        return
-    }
+	if (req.readyState !== XMLHttpRequest.DONE || req.status !== 200 || !req.responseText) {
+		return
+	}
 
-    let response = req.responseText
-    let viList = JSON.parse(response)
+	let response = req.responseText
+	let viList = JSON.parse(response)
 	autocomplete(document.getElementById("search_bar"), viList)
-	
+
 	viDict = viList.reduce((map, vi) => {
 		map[vi.name] = vi.id
 		return map
@@ -21,6 +21,16 @@ req.onreadystatechange = (event) => {
 }
 
 window.onload = () => {
+	if ('serviceWorker' in navigator) {
+		navigator.serviceWorker
+			.register('/js/sw.js')
+			.then((registration) => {
+				console.log('Succeeded in registering service worker: ' + registration)
+			}, (err) => {
+				console.log('Failed to register service worker: ' + err)
+			})
+	}
+
 	document.getElementById('search_button').addEventListener('click', () => {
 		search()
 	})
@@ -36,9 +46,9 @@ const autocomplete = (inputElement, data) => {
 	let currentFocus;
 
 	// when user types into textbox
-	inputElement.addEventListener("input", function(e) {
+	inputElement.addEventListener("input", function (e) {
 		let itemContainer, curMatch, i, val = this.value;
-		
+
 		closeAllLists();
 
 		if (!val)
@@ -48,20 +58,20 @@ const autocomplete = (inputElement, data) => {
 		itemContainer = document.createElement("DIV");
 		itemContainer.setAttribute("id", this.id + "autocomplete-list");
 		itemContainer.setAttribute("class", "autocomplete-items");
-		
+
 		this.parentNode.appendChild(itemContainer);
 
-        // TODO: binary search variant
+		// TODO: binary search variant
 		for (i = 0; i < data.length; i++) {
-            let cur = data[i].name
+			let cur = data[i].name
 			if (cur.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
 				curMatch = document.createElement("DIV");
 				curMatch.innerHTML = "<strong>" + cur.substr(0, val.length); + "</strong>";
 				curMatch.innerHTML += cur.substr(val.length);
 				curMatch.innerHTML += "<input type='hidden' value='" + cur + "'>";
-				
-				curMatch.addEventListener("click", function(e) {
-					
+
+				curMatch.addEventListener("click", function (e) {
+
 					inputElement.value = this.getElementsByTagName("input")[0].value;
 					closeAllLists();
 				});
@@ -72,9 +82,9 @@ const autocomplete = (inputElement, data) => {
 	});
 
 	// when user presses a key
-	inputElement.addEventListener("keydown", function(e) {
+	inputElement.addEventListener("keydown", function (e) {
 		let autoList = document.getElementById(this.id + "autocomplete-list");
-		
+
 		if (autoList)
 			autoList = autoList.getElementsByTagName("div");
 
@@ -91,9 +101,9 @@ const autocomplete = (inputElement, data) => {
 			e.preventDefault();
 
 			if (currentFocus > -1 && autoList) {
-                autoList[currentFocus].click();
-            }
-            
+				autoList[currentFocus].click();
+			}
+
 			search()
 		}
 	});
@@ -120,14 +130,14 @@ const autocomplete = (inputElement, data) => {
 	function closeAllLists(element) {
 		let items = document.getElementsByClassName("autocomplete-items");
 
-		for (let i = 0; i < items.length; i++) { 
+		for (let i = 0; i < items.length; i++) {
 			if (element != items[i] && element != inputElement)
 				items[i].parentNode.removeChild(items[i]);
 		}
 	}
 
 	// if user clicks somewhere that isn't autocomplete list then close the list
-	document.addEventListener("click", function(e) {
+	document.addEventListener("click", function (e) {
 		closeAllLists(e.target);
 	});
 }
