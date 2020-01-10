@@ -33,7 +33,10 @@ req.onreadystatechange = (event) => {
     const errMessage = 'No vi with ID ' + id + ' found'
     console.log(errMessage)
     name_label.innerHTML = errMessage
+    return
   }
+
+  const vi = parsedResponse[0]
 
   name_label.innerHTML = vi.name
   description_label.innerHTML = vi.description

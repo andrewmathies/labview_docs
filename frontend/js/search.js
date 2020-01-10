@@ -3,7 +3,7 @@ const url='http://saturten.com/api/vi';
 req.open("GET", url);
 req.send();
 
-const viDict
+let viDict = {}
 
 req.onreadystatechange = (event) => {
     if(req.readyState !== XMLHttpRequest.DONE || req.status !== 200 || !req.responseText) {
@@ -18,7 +18,6 @@ req.onreadystatechange = (event) => {
 		map[vi.name] = vi.id
 		return map
 	}, {})
-	console.log(viDict)
 }
 
 window.onload = () => {
